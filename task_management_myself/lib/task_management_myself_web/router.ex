@@ -19,6 +19,7 @@ defmodule TaskManagementMyselfWeb.Router do
 
     get "/", PageController, :home
     get "/tasks", TaskController, :index
+    get "/mypages", PersonalController, :mypage
   end
 
   # Other scopes may use custom stacks.
