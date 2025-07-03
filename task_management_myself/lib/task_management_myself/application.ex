@@ -7,6 +7,9 @@ defmodule TaskManagementMyself.Application do
 
   @impl true
   def start(_type, _args) do
+    # Initialize ETS table for task storage
+    :ets.new(:tasks_table, [:set, :public, :named_table])
+
     children = [
       TaskManagementMyselfWeb.Telemetry,
       TaskManagementMyself.Repo,

@@ -19,6 +19,11 @@ defmodule TaskManagementMyselfWeb.Router do
 
     get "/", PageController, :home
     get "/tasks", TaskController, :index
+    get "/tasks/new", TaskController, :new
+    post "/tasks", TaskController, :create
+    get "/tasks/:id/edit", TaskController, :edit
+    patch "/tasks/:id", TaskController, :update
+    delete "/tasks/:id", TaskController, :delete
     get "/mypages", PersonalController, :mypage
   end
 
