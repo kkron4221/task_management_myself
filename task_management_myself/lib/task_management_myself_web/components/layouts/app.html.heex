@@ -9,18 +9,18 @@
       </p>
     </div>
     <div class="flex items-center gap-4 font-semibold leading-6 text-zinc-900">
-      <a href="https://twitter.com/elixirphoenix" class="hover:text-zinc-700">
-        @elixirphoenix
-      </a>
-      <a href="https://github.com/phoenixframework/phoenix" class="hover:text-zinc-700">
-        GitHub
-      </a>
-      <a
-        href="https://hexdocs.pm/phoenix/overview.html"
-        class="rounded-lg bg-zinc-100 px-2 py-1 hover:bg-zinc-200/80"
-      >
-        Get Started <span aria-hidden="true">&rarr;</span>
-      </a>
+      <%= if @current_user do %>
+        <span class="text-sm text-gray-600">Welcome, <%= @current_user.username %></span>
+        <.link navigate={~p"/tasks"} class="hover:text-zinc-700">Tasks</.link>
+        <.link navigate={~p"/mypages"} class="hover:text-zinc-700">My Page</.link>
+        <.link navigate={~p"/profile"} class="hover:text-zinc-700">Profile</.link>
+        <.link navigate={~p"/logout"} data-confirm="Are you sure?" class="text-red-600 hover:text-red-800">Logout</.link>
+      <% else %>
+        <.link navigate={~p"/login"} class="hover:text-zinc-700">Login</.link>
+        <.link navigate={~p"/users/new"} class="rounded-lg bg-zinc-100 px-2 py-1 hover:bg-zinc-200/80">
+          Sign Up <span aria-hidden="true">&rarr;</span>
+        </.link>
+      <% end %>
     </div>
   </div>
 </header>

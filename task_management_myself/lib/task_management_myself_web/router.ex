@@ -8,16 +8,35 @@ defmodule TaskManagementMyselfWeb.Router do
     plug :put_root_layout, html: {TaskManagementMyselfWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug TaskManagementMyselfWeb.AuthPlug, :fetch_current_user
+  end
+
+  pipeline :require_auth do
+    plug TaskManagementMyselfWeb.AuthPlug, :require_authenticated_user
+  end
+
+  pipeline :redirect_if_authenticated do
+    plug TaskManagementMyselfWeb.AuthPlug, :redirect_if_user_is_authenticated
   end
 
   pipeline :api do
     plug :accepts, ["json"]
   end
 
+  # Public routes
   scope "/", TaskManagementMyselfWeb do
-    pipe_through :browser
+    pipe_through [:browser, :redirect_if_authenticated]
 
-    get "/", PageController, :home
+    get "/users/new", UserController, :new
+    post "/users", UserController, :create
+    get "/login", UserController, :login_form
+    post "/login", UserController, :login
+  end
+
+  # Protected routes
+  scope "/", TaskManagementMyselfWeb do
+    pipe_through [:browser, :require_auth]
+
     get "/tasks", TaskController, :index
     get "/tasks/new", TaskController, :new
     post "/tasks", TaskController, :create
@@ -25,6 +44,15 @@ defmodule TaskManagementMyselfWeb.Router do
     patch "/tasks/:id", TaskController, :update
     delete "/tasks/:id", TaskController, :delete
     get "/mypages", PersonalController, :mypage
+    get "/profile", UserController, :profile
+    get "/logout", UserController, :logout
+  end
+
+  # Public home page
+  scope "/", TaskManagementMyselfWeb do
+    pipe_through :browser
+
+    get "/", PageController, :home
   end
 
   # Other scopes may use custom stacks.

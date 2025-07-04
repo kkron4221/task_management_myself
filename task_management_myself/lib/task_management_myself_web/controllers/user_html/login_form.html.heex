@@ -1,0 +1,28 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-md mx-auto">
+    <div class="mb-6">
+      <h1 class="text-3xl font-bold text-gray-900">Sign In</h1>
+      <p class="mt-2 text-gray-600">Welcome back to your task management system</p>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <.simple_form :let={f} for={%{}} action={~p"/login"} as="session">
+        <.input field={f[:email]} type="email" label="Email" required />
+        <.input field={f[:password]} type="password" label="Password" required />
+        
+        <:actions>
+          <.button type="submit" class="w-full">Sign In</.button>
+        </:actions>
+      </.simple_form>
+
+      <div class="mt-6 text-center">
+        <p class="text-gray-600">
+          Don't have an account? 
+          <.link navigate={~p"/users/new"} class="text-blue-600 hover:text-blue-800 font-medium">
+            Create one here
+          </.link>
+        </p>
+      </div>
+    </div>
+  </div>
+</div> 
